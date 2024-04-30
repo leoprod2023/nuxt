@@ -10,11 +10,12 @@
       "postinstall": "nuxt prepare"
    },
    "dependencies": {
+      "@nuxt/image": "^1.6.0",
       "@quasar/extras": "^1.16.11",
-      "stringify-object": "^5.0.0",
       "apollo-upload-client": "^18.0.1",
       "nuxt": "^3.11.2",
       "quasar": "^2.15.2",
+      "stringify-object": "^5.0.0",
       "vue": "^3.4.21",
       "vue-router": "^4.3.0"
    },

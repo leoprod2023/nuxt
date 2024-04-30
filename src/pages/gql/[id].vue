@@ -26,10 +26,27 @@
             <q-btn type="submit">Sumbit</q-btn>
          </div>
       </q-form>
-      <div>
-         <pre>{{ data1 }}</pre>
-         <pre>{{ data2 }}</pre>
-         <pre>{{ data3 }}</pre>
+      <div v-if="q_submitted">
+         <p>Kangourous modificados:</p>
+         <ul>
+            <li v-for="kangourou in kangourous" :key="kangourou._id">
+               {{ kangourou.nombre }}
+               <br />
+               <img
+                  :src="
+                     'http://localhost:3000/public/kangourou/50x50/' + kangourou.imagen
+                  "
+               />
+               <!--
+   <NuxtImg
+   :src="
+   'http://localhost:3000/public/kangourou/50x50/' + kangourou.imagen
+   "
+   />
+</li>
+-->
+            </li>
+         </ul>
       </div>
    </div>
 </template>
@@ -38,27 +55,32 @@
 import { mutation, query } from '../../composables/graphql.js';
 import kangourousGql from '../../queries/kangourous.js';
 
+const { id } = useRoute().params;
+
 const q_file = ref();
 const q_nombre = ref();
-const data1 = ref('loading...');
-const data2 = ref('loading...');
-const data3 = ref('loading...');
+const q_submitted = ref(false);
+const kangourous = ref([]);
+
 const imagePreview = ref(null);
+let imagen = null;
 
 async function submitForm() {
-   const datos = {
-      nombre: q_nombre.value,
-   };
-   if (imagePreview.value) {
-      Object.assign(datos, { imagen: imagePreview.value });
+   const datos = {};
+   if (q_nombre.value) {
+      Object.assign(datos, { nombre: q_nombre.value });
    }
-   console.log(datos);
-   data3.value = await mutation(kangourousGql.modificar, {
-      busqueda: {},
+   if (q_file.value) {
+      Object.assign(datos, { imagen: q_file.value });
+   }
+   const res = await mutation(kangourousGql.modificar, {
+      busqueda: { _id: id },
       datos,
       opciones: {},
-      fields: 'nombre imagen',
+      fields: '_id nombre imagen',
    });
+   kangourous.value = res.data.modificarKangourous;
+   q_submitted.value = true;
 }
 
 watch(q_file, async () => {
@@ -66,10 +88,9 @@ watch(q_file, async () => {
       const fileReader = new FileReader();
       fileReader.addEventListener('load', async () => {
          imagePreview.value = fileReader.result;
-         data1.value = 'file loaded';
+         imagen = q_file.value;
       });
       fileReader.readAsDataURL(q_file.value);
-      data2.value = 'file selected';
    }
 });
 </script>

@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
    srcDir: 'src',
    devtools: { enabled: true },
-   modules: ['nuxt-quasar-ui', '@nuxtjs/apollo'],
+   modules: ['nuxt-quasar-ui', '@nuxtjs/apollo', "@nuxt/image"],
    css: ['~/assets/main.css'],
    nitro: {
       routeRules: {
