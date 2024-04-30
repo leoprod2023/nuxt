@@ -1,46 +1,101 @@
 <template>
    <div>
-      <h1>Index</h1>
-      <h2>config</h2>
-      <p>privateKey : {{ $config.privateKey }}</p>
-      <p>publicKey : {{ $config.public.publicKey }}</p>
-      <h2>components</h2>
-      <MyComponent> This is an auto-imported component </MyComponent>
-      <h2>Links</h2>
-      <NuxtLink to="/hellolio">Hello Lio</NuxtLink>
-      <NuxtLink to="/hellowill">Hello Will</NuxtLink>
-      <pre>{{ res }}</pre>
+      <p>mutationModificarKangourous</p>
+      <pre>{{ resMutation }}</pre>
+      <p>queryBuscarKangourous</p>
+      <pre>{{ resQuery }}</pre>
    </div>
 </template>
 
-<script setup lang="ts">
-import '~/assets/css/index.css';
+<script setup>
+import stringifyObject from 'stringify-object';
 
-definePageMeta({
-   title: 'My home page',
-});
-console.log(useRuntimeConfig().privateKey);
-console.log(useRuntimeConfig().public.publicKey);
-
-const query = gql`
-   mutation (
-      $busqueda: BuscarPersonaDto!
-      $datos: ModificarPersonaDto!
-      $opciones: Opciones
+const resMutation = ref('loading...');
+const resQuery = ref('loading...');
+/*
+const queryBuscarKangourous = (params) => {
+   return gql`query (
+      $busqueda: BuscarKangourouDto!,
+      $filtro: BuscarKangourouDto!,
+      $opciones: BuscarOpciones
    ) {
-      modificarPersonas(busqueda: $busqueda, datos: $datos, opciones: $opciones) {
-         nombre
-         imagen
-      }
-   }
-`;
-
-const variables = {
-   busqueda: {},
-   datos: { nombre: 'toto' },
-   opciones: { limit: 1 },
+      buscarKangourous(
+         busqueda: $busqueda,
+         filtro: $filtro,
+         opciones: $opciones
+      ) { ${params} }
+   }`;
 };
 
-const { mutate } = await useMutation(query, { variables });
-const res = await mutate();
+const mutationModificarKangourous = (params) => {
+   return gql`mutation (
+      $busqueda: BuscarKangourouDto!,
+      $datos: ModificarKangourouDto!,
+      $opciones: ModificarOpciones
+   ) {
+      modificarKangourous(
+         busqueda: $busqueda,
+         datos: $datos,
+         opciones: $opciones
+      ) { ${params} }
+   }`;
+};
+*/
+
+const s = (v) => stringifyObject(v, { singleQuotes: false });
+const queryBuscarKangourous = (variables) => {
+   return gql`
+         query {
+            buscarKangourous(
+               busqueda: ${s(variables.busqueda)},
+               filtro: ${s(variables.filtro)},
+               opciones: ${s(variables.opciones)}
+            ) {
+               ${variables.fields}
+            }
+         }
+      `;
+};
+const mutationModificarKangourous = (params) => {
+   return gql`mutation (
+      $busqueda: BuscarKangourouDto!,
+      $datos: ModificarKangourouDto!,
+      $opciones: ModificarOpciones
+   ) {
+      modificarKangourous(
+         busqueda: $busqueda,
+         datos: $datos,
+         opciones: $opciones
+      ) { ${params} }
+   }`;
+};
+
+const query = (queryf, variables) => {
+   return useQuery(queryf(variables));
+};
+const mutation = async (mutationf, variables) => {
+   const { mutate } = useMutation(mutationf(variables.fields), {
+      variables,
+   });
+   return await mutate();
+};
+
+onMounted(async () => {
+   // example mutation
+   resMutation.value = await mutation(mutationModificarKangourous, {
+      busqueda: {},
+      datos: { nombre: 'Alicia' },
+      opciones: {},
+      fields: 'nombre',
+   });
+
+   // example query
+   const { result, loading, error } = query(queryBuscarKangourous, {
+      busqueda: {},
+      filtro: {},
+      opciones: {},
+      fields: 'nombre',
+   });
+   resQuery.value = result;
+});
 </script>

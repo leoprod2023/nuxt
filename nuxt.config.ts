@@ -8,7 +8,7 @@ export default defineNuxtConfig({
    modules: ['nuxt-quasar-ui', '@nuxt/content', '@nuxtjs/apollo'],
    nitro: {
       routeRules: {
-         '/proxy/**': { proxy: { to: 'http://localhost:5000/**' } },
+         '/proxy/**': { proxy: { to: 'http://localhost:3000/**' } },
       },
    },
    apollo: {
