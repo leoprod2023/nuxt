@@ -3,9 +3,8 @@ import { s } from '../composables/graphql.js';
 export const buscar = (variables) => {
    return gql`
       query {
-         buscarKangourous(
+         personaBuscar(
             busqueda: ${s(variables.busqueda)},
-            filtro: ${s(variables.filtro)},
             opciones: ${s(variables.opciones)}
          ) {
             ${variables.fields}
@@ -15,12 +14,13 @@ export const buscar = (variables) => {
 };
 
 export const modificar = (params) => {
-   return gql`mutation (
-      $busqueda: BuscarKangourouDto!,
-      $datos: ModificarKangourouDto!,
-      $opciones: ModificarOpciones
+   return gql`
+   mutation (
+      $busqueda: BuscarPersonaDto!,
+      $datos: ModificarPersonaDto!,
+      $opciones: OpcionesDto
    ) {
-      modificarKangourous(
+      personaModificar(
          busqueda: $busqueda,
          datos: $datos,
          opciones: $opciones

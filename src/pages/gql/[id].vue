@@ -27,20 +27,21 @@
          </div>
       </q-form>
       <div v-if="q_submitted">
-         <p>Kangourous modificados:</p>
+         <p>Personas modificados:</p>
          <ul>
-            <li v-for="kangourou in kangourous" :key="kangourou._id">
-               {{ kangourou.nombre }}
-               <br />
-               <img
-                  :src="
-                     'http://localhost:3000/public/kangourou/50x50/' + kangourou.imagen
-                  "
-               />
+            <li v-for="persona in personas" :key="persona._id">
+               {{ persona.nombre }}
+               <div v-if="persona.imagen">
+                  <img
+                     height="40px"
+                     :src="'http://localhost:3000/public/personas/' + persona.imagen"
+                  />
+                  <br />
+               </div>
                <!--
    <NuxtImg
    :src="
-   'http://localhost:3000/public/kangourou/50x50/' + kangourou.imagen
+   'http://localhost:3000/public/persona/50x50/' + persona.imagen
    "
    />
 </li>
@@ -53,14 +54,14 @@
 
 <script setup>
 import { mutation, query } from '../../composables/graphql.js';
-import kangourousGql from '../../queries/kangourous.js';
+import personasGql from '../../queries/personas.js';
 
 const { id } = useRoute().params;
 
 const q_file = ref();
 const q_nombre = ref();
 const q_submitted = ref(false);
-const kangourous = ref([]);
+const personas = ref([]);
 
 const imagePreview = ref(null);
 let imagen = null;
@@ -73,13 +74,13 @@ async function submitForm() {
    if (q_file.value) {
       Object.assign(datos, { imagen: q_file.value });
    }
-   const res = await mutation(kangourousGql.modificar, {
+   const res = await mutation(personasGql.modificar, {
       busqueda: { _id: id },
       datos,
       opciones: {},
       fields: '_id nombre imagen',
    });
-   kangourous.value = res.data.modificarKangourous;
+   personas.value = res.data.personaModificar;
    q_submitted.value = true;
 }
 

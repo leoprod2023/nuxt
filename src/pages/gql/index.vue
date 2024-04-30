@@ -1,16 +1,19 @@
 <template>
    <h2>Test de Gql query/mutation</h2>
    <div>
-      <p>queryBuscarKangourous</p>
+      <p>queryBuscarPersonas</p>
       <ul>
-         <li v-for="kangourou in kangourous" :key="kangourou._id">
-            {{ kangourou.nombre }}
+         <li v-for="persona in personas" :key="persona._id">
+            {{ persona.nombre }}
             <br />
-            <img
-               :src="'http://localhost:3000/public/kangourou/50x50/' + kangourou.imagen"
-            />
-            <br />
-            <NuxtLink :to="'/gql/' + kangourou._id">Modificar</NuxtLink>
+            <div v-if="persona.imagen">
+               <img
+                  height="40px"
+                  :src="'http://localhost:3000/public/personas/' + persona.imagen"
+               />
+               <br />
+            </div>
+            <NuxtLink :to="'/gql/' + persona._id">Modificar</NuxtLink>
          </li>
       </ul>
    </div>
@@ -18,17 +21,16 @@
 
 <script setup>
 import { query } from '../../composables/graphql.js';
-import kangourousGql from '../../queries/kangourous.js';
+import personasGql from '../../queries/personas.js';
 
-const kangourous = ref([]);
+const personas = ref([]);
 
 onMounted(async () => {
-   const { result, loading, error } = query(kangourousGql.buscar, {
+   const { result, loading, error } = query(personasGql.buscar, {
       busqueda: {},
-      filtro: {},
       opciones: {},
       fields: 'nombre imagen _id',
    });
-   kangourous.value = result.value.buscarKangourous;
+   personas.value = result.value.personaBuscar;
 });
 </script>
