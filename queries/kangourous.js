@@ -28,4 +28,4 @@ export const modificar = (params) => {
    }`;
 };
 
-export default kangourousGql = { buscar, modificar };
+export default { buscar, modificar };

@@ -5,7 +5,7 @@ export default defineNuxtConfig({
    $development: {
       devtools: { enabled: true },
    },
-   modules: ['nuxt-quasar-ui', '@nuxt/content', '@nuxtjs/apollo'],
+   modules: ['nuxt-quasar-ui', '@nuxtjs/apollo'],
    nitro: {
       routeRules: {
          '/proxy/**': { proxy: { to: 'http://localhost:3000/**' } },
