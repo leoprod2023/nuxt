@@ -1,22 +1,26 @@
 {
-  "name": "nuxt-app",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "build": "nuxt build",
-    "dev": "nuxt dev",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
-  },
-  "dependencies": {
-    "@quasar/extras": "^1.16.11",
-    "nuxt": "^3.11.2",
-    "quasar": "^2.15.2",
-    "vue": "^3.4.21",
-    "vue-router": "^4.3.0"
-  },
-  "devDependencies": {
-    "nuxt-quasar-ui": "^2.0.8"
-  }
+   "name": "nuxt-app",
+   "private": true,
+   "type": "module",
+   "scripts": {
+      "build": "nuxt build",
+      "dev": "PORT=8000 nuxt dev",
+      "generate": "nuxt generate",
+      "preview": "nuxt preview",
+      "postinstall": "nuxt prepare"
+   },
+   "dependencies": {
+      "@quasar/extras": "^1.16.11",
+      "stringify-object": "^5.0.0",
+      "apollo-upload-client": "^18.0.1",
+      "nuxt": "^3.11.2",
+      "quasar": "^2.15.2",
+      "vue": "^3.4.21",
+      "vue-router": "^4.3.0"
+   },
+   "devDependencies": {
+      "@nuxtjs/apollo": "^5.0.0-alpha.14",
+      "@vue/apollo-composable": "^4.0.2",
+      "nuxt-quasar-ui": "^2.0.8"
+   }
 }

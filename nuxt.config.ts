@@ -2,5 +2,17 @@
 export default defineNuxtConfig({
    srcDir: 'src',
    devtools: { enabled: true },
-   modules: [],
+   modules: ['@nuxtjs/apollo'],
+   nitro: {
+      routeRules: {
+         '/proxy/**': { proxy: { to: 'http://localhost:3000/**' } },
+      },
+   },
+   apollo: {
+      clients: {
+         default: {
+            httpEndpoint: '/proxy/graphql',
+         },
+      },
+   },
 });
