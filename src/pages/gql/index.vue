@@ -1,21 +1,7 @@
 <template>
-   <h2>Test de Gql query/mutation</h2>
+   <h2>Personas</h2>
    <div>
-      <p>queryBuscarPersonas</p>
-      <ul>
-         <li v-for="persona in personas" :key="persona._id">
-            {{ persona.nombre }}
-            <br />
-            <div v-if="persona.imagen">
-               <img
-                  height="40px"
-                  :src="'http://localhost:3000/public/personas/' + persona.imagen"
-               />
-               <br />
-            </div>
-            <NuxtLink :to="'/gql/' + persona._id">Modificar</NuxtLink>
-         </li>
-      </ul>
+      <lista-personas :personas="personas" showModificar />
    </div>
 </template>
 

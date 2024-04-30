@@ -1,5 +1,5 @@
 <template>
-   <h2>Test de Gql con upload de archivo</h2>
+   <h2>Modificar una persona</h2>
    <div>
       <q-form @submit="submitForm">
          <div>
@@ -27,27 +27,7 @@
          </div>
       </q-form>
       <div v-if="q_submitted">
-         <p>Personas modificados:</p>
-         <ul>
-            <li v-for="persona in personas" :key="persona._id">
-               {{ persona.nombre }}
-               <div v-if="persona.imagen">
-                  <img
-                     height="40px"
-                     :src="'http://localhost:3000/public/personas/' + persona.imagen"
-                  />
-                  <br />
-               </div>
-               <!--
-   <NuxtImg
-   :src="
-   'http://localhost:3000/public/persona/50x50/' + persona.imagen
-   "
-   />
-</li>
--->
-            </li>
-         </ul>
+         <lista-personas :personas="personas" />
       </div>
    </div>
 </template>

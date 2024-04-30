@@ -1,7 +1,9 @@
 <template>
    <div id="app-header">
       <p>{{ text }}</p>
-      <p><nuxt-link to="/">Home</nuxt-link> | <nuxt-link to="/gql">Gql</nuxt-link></p>
+      <p>
+         <nuxt-link to="/">Home</nuxt-link> | <nuxt-link to="/gql">Personas</nuxt-link>
+      </p>
    </div>
 </template>
 
