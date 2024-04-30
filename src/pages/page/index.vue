@@ -1,4 +1,5 @@
 <template>
+   <h2>Home</h2>
    <div>
       <p>Page</p>
       <p><nuxt-link to="/">index</nuxt-link></p>

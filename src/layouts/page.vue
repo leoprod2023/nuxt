@@ -1,6 +1,6 @@
 <template>
    <div>
-      <AppHeader text="Header" />
+      <AppHeader text="Nuxt3 Leo (page layout)" />
       <slot />
       <AppFooter text="Footer" />
    </div>

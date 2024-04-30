@@ -1,9 +1,9 @@
 <template>
-   <div>
-      <AppHeader text="Home" />
+   <AppHeader text="Nuxt3 Leo" />
+   <div id="template">
       <slot />
-      <AppFooter text="Nuxt3 crash course" />
    </div>
+   <AppFooter text="Nuxt3 crash course" />
 </template>
 
 <script setup></script>

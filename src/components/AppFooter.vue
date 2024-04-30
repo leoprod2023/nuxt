@@ -1,7 +1,3 @@
-<template>
-   <p>{{ text }}</p>
-</template>
+<template></template>
 
-<script setup>
-const { text } = defineProps({ text: String });
-</script>
+<script setup></script>
