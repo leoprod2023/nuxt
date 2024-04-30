@@ -1,6 +1,10 @@
 #app-header {
    background-color: #dddddd;
    padding: 5px 25px;
+   position: fixed;
+   height: 55px;
+   top: 0;
+   width: 100%;
 }
 #app-header p {
    margin: 0;
@@ -8,6 +12,7 @@
 #template {
    background-color: #ffffff;
    padding: 5px 25px;
+   margin-top: 55px;
 }
 
 h2 {
