@@ -1,12 +1,11 @@
 <template>
    <h2>Home</h2>
-   <div>
-      <input v-model="input" />
-      <p>{{ input }}</p>
-   </div>
+   <input v-model="input" />
+   <p>{{ input }}</p>
+   <p>{{ $hello('world') }}</p>
 </template>
 
 <script setup>
-// refs
-const input = ref('Hello world');
+const { $hello } = useNuxtApp();
+const input = ref($hello('world!!'));
 </script>

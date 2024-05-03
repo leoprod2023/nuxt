@@ -1,6 +1,6 @@
 <template>
    <ul>
-      <q-li v-for="persona in personas" :key="persona._id">
+      <li v-for="persona in personas" :key="persona._id">
          <div class="image" v-if="persona.imagen">
             <img
                height="40px"
@@ -14,7 +14,7 @@
                <NuxtLink :to="'/gql/' + persona._id">Modificar</NuxtLink>
             </span>
          </div>
-      </q-li>
+      </li>
    </ul>
 </template>
 
@@ -23,28 +23,35 @@ const { personas, showModificar } = defineProps({
    personas: Array,
    showModificar: Boolean,
 });
+if (personas.personaBuscar) {
+   personas = personas.personaBuscar;
+}
+onMounted(async () => {
+   if (personas.personaBuscar) {
+      personas = personas.personaBuscar;
+   }
+});
 </script>
 
 <style scoped>
-q-ul,
 ul {
    padding: 0;
 }
-q-li {
+li {
    display: block;
    padding: 10px;
 }
-q-li .image {
+li .image {
    display: inline-block;
    margin-right: 10px;
 }
-q-li .info {
+li .info {
    display: inline-block;
 }
-q-li:nth-child(even) {
+li:nth-child(even) {
    background: #eee;
 }
-q-li:nth-child(odd) {
+li:nth-child(odd) {
    background: #ccc;
 }
 </style>

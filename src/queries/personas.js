@@ -1,31 +1,31 @@
-import { s } from '../composables/graphql.js';
-
-export const buscar = (variables) => {
-   return gql`
-      query {
+export const buscar = (fields) => {
+   return `
+      query (
+         $busqueda: BuscarPersonaDto!,
+         $opciones: OpcionesDto
+      ) {
          personaBuscar(
-            busqueda: ${s(variables.busqueda)},
-            opciones: ${s(variables.opciones)}
-         ) {
-            ${variables.fields}
-         }
+            busqueda: $busqueda,
+            opciones: $opciones
+         ) { ${fields} }
       }
    `;
 };
 
-export const modificar = (params) => {
-   return gql`
-   mutation (
-      $busqueda: BuscarPersonaDto!,
-      $datos: ModificarPersonaDto!,
-      $opciones: OpcionesDto
-   ) {
-      personaModificar(
-         busqueda: $busqueda,
-         datos: $datos,
-         opciones: $opciones
-      ) { ${params} }
-   }`;
+export const modificar = (fields) => {
+   return `
+      mutation (
+         $busqueda: BuscarPersonaDto!,
+         $datos: ModificarPersonaDto!,
+         $opciones: OpcionesDto
+      ) {
+         personaModificar(
+            busqueda: $busqueda,
+            datos: $datos,
+            opciones: $opciones
+         ) { ${fields} }
+      }
+   `;
 };
 
 export default { buscar, modificar };

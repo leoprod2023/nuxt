@@ -1,22 +1,20 @@
 <template>
-   <h2>Personas</h2>
+   <h2>Personas <span :v-if="loadingGlobal.value">(LOADING)</span></h2>
    <div>
       <lista-personas :personas="personas" showModificar />
    </div>
 </template>
 
 <script setup>
-import { query } from '../../composables/graphql.js';
 import personasGql from '../../queries/personas.js';
+const loadingGlobal = ref(false);
 
 const personas = ref([]);
-
-onMounted(async () => {
-   const { result, loading, error } = query(personasGql.buscar, {
-      busqueda: {},
-      opciones: {},
-      fields: 'nombre imagen _id',
-   });
-   personas.value = result.value.personaBuscar;
+onMounted(() => {
+   queryAndAssign(
+      personasGql.buscar('nombre imagen _id'),
+      { busqueda: {}, opciones: {} },
+      personas,
+   );
 });
 </script>

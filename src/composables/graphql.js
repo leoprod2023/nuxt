@@ -1,15 +1,35 @@
 import stringifyObject from 'stringify-object';
 
-export function s(v) {
-   return stringifyObject(v, { singleQuotes: false });
+export function queryAndAssign(query, variables, ref) {
+   const { result, loading, error } = useQuery(
+      gql`
+         ${query}
+      `,
+      variables,
+   );
+   watch(result, (value) => {
+      ref.value = value[Object.keys(value).pop()];
+   });
+   if (result.value) {
+      const root = Object.keys(result.value).pop();
+      ref.value = result.value[root];
+   }
 }
 
-export function query(queryf, variables) {
-   return useQuery(queryf(variables));
+// mutate sync
+// const { mutate, loading, error, data } = useMutation(UPDATE_USER_NAME);
+export function mutation(mutation, variables) {
+   const { mutate, loading, error, data } = useMutation(
+      gql`
+         ${mutation}
+      `,
+   );
+   return mutate(variables);
 }
 
-export async function mutation(mutationf, variables) {
-   const { mutate } = useMutation(mutationf(variables.fields), {
+// mutate Async
+export async function mutationAsync(mutationf, variables) {
+   const { mutate } = useAsyncMutation(mutationf(variables.fields), {
       variables,
    });
    return await mutate();
