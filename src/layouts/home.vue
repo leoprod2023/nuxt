@@ -1,9 +1,9 @@
 <template>
-   <div>
-      <AppHeader text="Nuxt3 Leo (page layout)" />
+   <AppHeader text="Nuxt3 Leo" />
+   <div id="template">
       <slot />
-      <AppFooter text="Footer" />
    </div>
+   <AppFooter text="Layout : Home" />
 </template>
 
 <script setup></script>

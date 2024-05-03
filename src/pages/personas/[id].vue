@@ -1,5 +1,5 @@
 <template>
-   <h2>Modificar una persona</h2>
+   <!--h2>Modificar una persona</h2-->
    <div>
       <q-form @submit="submitForm">
          <div>
@@ -33,7 +33,7 @@
 </template>
 
 <script setup>
-import { mutation, query } from '../../composables/graphql.js';
+import { queryAndAssign, mutateAndAssign } from '../../composables/graphql.js';
 import personasGql from '../../queries/personas.js';
 
 const { id } = useRoute().params;
@@ -54,13 +54,15 @@ async function submitForm() {
    if (q_file.value) {
       Object.assign(datos, { imagen: q_file.value });
    }
-   const res = await mutation(personasGql.modificar, {
-      busqueda: { _id: id },
-      datos,
-      opciones: {},
-      fields: '_id nombre imagen',
-   });
-   personas.value = res.data.personaModificar;
+   const data = await mutateAndAssign(
+      personasGql.modificar('_id nombre imagen'),
+      {
+         busqueda: { _id: id },
+         datos,
+         opciones: {},
+      },
+      personas,
+   );
    q_submitted.value = true;
 }
 

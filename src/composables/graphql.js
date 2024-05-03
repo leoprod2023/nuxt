@@ -1,36 +1,69 @@
-import stringifyObject from 'stringify-object';
+/**
+ * getData
+ * para recuperar los documentos sin el nombre de la consulta
+ * ejemplo : { personaBuscar: [ persona1, persona2 ... ]} => [ persona1, persona2 ... ]
+ */
+const getData = (res) => {
+   const keys = Object.keys(res);
+   if (keys.length === 0) {
+      console.log('error getData');
+   }
+   return res[keys[0]];
+};
 
-export function queryAndAssign(query, variables, ref) {
+/**
+ * queryAndAssign
+ * ! solo retorna el valor al cambiar de ruta, tiene si o si que
+ * ! asignarse a una ref porque no se puede confiar en el return
+ */
+export function queryAndAssign(query, variables, ref = null) {
+   // lanzamos la consulta
    const { result, loading, error } = useQuery(
       gql`
          ${query}
       `,
       variables,
    );
+
+   // para actualizar la ref al hacer F5
    watch(result, (value) => {
-      ref.value = value[Object.keys(value).pop()];
+      if (ref) {
+         ref.value = getData(value);
+      }
+      // TODO unwatch
    });
-   if (result.value) {
-      const root = Object.keys(result.value).pop();
-      ref.value = result.value[root];
+
+   // para actualizar la ref al cambiar la ruta
+   if (ref && result.value) {
+      ref.value = getData(result.value);
+      return ref.value;
    }
+
+   return null;
 }
 
-// mutate sync
-// const { mutate, loading, error, data } = useMutation(UPDATE_USER_NAME);
-export function mutation(mutation, variables) {
-   const { mutate, loading, error, data } = useMutation(
+/**
+ * mutateAndAssign
+ */
+export async function mutateAndAssign(mutation, variables, ref) {
+   // lanzamos la consulta para recuperar la mutacion
+   const { mutate, error } = useMutation(
       gql`
          ${mutation}
       `,
    );
-   return mutate(variables);
+
+   // lanzamos la mutacion con las variables
+   const { data } = await mutate(variables);
+
+   // recuperamos los documentos sin el nombre de la consulta
+   const root = Object.keys(data).pop();
+
+   // actualizamos la ref
+   ref.value = data[root];
+
+   // retornamos el resultado
+   return data[root];
 }
 
-// mutate Async
-export async function mutationAsync(mutationf, variables) {
-   const { mutate } = useAsyncMutation(mutationf(variables.fields), {
-      variables,
-   });
-   return await mutate();
-}
+export default { queryAndAssign, mutateAndAssign };

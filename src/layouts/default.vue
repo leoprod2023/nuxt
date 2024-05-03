@@ -3,7 +3,7 @@
    <div id="template">
       <slot />
    </div>
-   <AppFooter text="Nuxt3 crash course" />
+   <AppFooter text="Layout : default" />
 </template>
 
 <script setup></script>

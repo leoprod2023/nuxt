@@ -11,7 +11,7 @@
             {{ persona.nombre }}
             <br />
             <span v-if="showModificar">
-               <NuxtLink :to="'/gql/' + persona._id">Modificar</NuxtLink>
+               <NuxtLink :to="'/personas/' + persona._id">Modificar</NuxtLink>
             </span>
          </div>
       </li>
